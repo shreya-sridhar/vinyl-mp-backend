@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-      resources :users, only: [:create]
+      resources :users
+      resources :records
+      resources :sell_records
+      resources :order_records
+      resources :orders
+
       post '/login', to: 'auth#create'
       get '/profile', to: 'users#profile'
 end

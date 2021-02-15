@@ -40,17 +40,18 @@ ActiveRecord::Schema.define(version: 2021_02_11_200206) do
     t.text "songs_list"
     t.integer "year"
     t.float "price"
+    t.integer "rating"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "sell_records", force: :cascade do |t|
-    t.bigint "album_id"
+    t.bigint "record_id"
     t.bigint "user_id"
     t.float "sell_price"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["album_id"], name: "index_sell_records_on_album_id"
+    t.index ["record_id"], name: "index_sell_records_on_record_id"
     t.index ["user_id"], name: "index_sell_records_on_user_id"
   end
 

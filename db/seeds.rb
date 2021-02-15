@@ -24,8 +24,33 @@ end
     cover: "https://images-na.ssl-images-amazon.com/images/I/717VbeZb0bL._AC_SL1500_.jpg",
     songs_list: Faker::Lorem.words(number: 4),
     year: Random.new.rand(1900..2020),
-    price: Random.new.rand(10.00..1000.00)
+    price: Random.new.rand(10.00..1000.00),
+    rating: Random.new.rand(0..5)
   )
 end
+
+10.times do
+  SellRecord.create(
+    user_id: User.all.sample.id,
+    record_id: Record.all.sample.id,
+    sell_price: Random.new.rand(10.00..200.00)
+  )
+end
+
+30.times do
+  Order.create(
+    user_id: User.all.sample.id,
+    status: %w[in_cart completed].sample,
+    total_sum: 0.00
+  )
+end
+
+10.times do
+  OrderRecord.create(
+    order_id: Order.all.sample.id,
+    record_id: Record.all.sample.id
+    )
+end
+
 
 puts 'done'
