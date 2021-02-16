@@ -8,6 +8,10 @@
 
 User.destroy_all
 Record.destroy_all
+SellRecord.destroy_all
+Order.destroy_all
+OrderRecord.destroy_all
+
 
 10.times do
   User.create(
@@ -21,7 +25,7 @@ end
   Record.create(
     name: Faker::Music.album,
     artist: Faker::Music.band,
-    cover: "https://images-na.ssl-images-amazon.com/images/I/717VbeZb0bL._AC_SL1500_.jpg",
+    cover: "https://images.unsplash.com/photo-1526382551041-3c817fc3d478?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=300&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=400",
     songs_list: Faker::Lorem.words(number: 4),
     year: Random.new.rand(1900..2020),
     price: Random.new.rand(10.00..1000.00),
