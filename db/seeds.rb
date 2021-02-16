@@ -49,7 +49,7 @@ end
   )
 end
 
-10.times do
+100.times do
   OrderRecord.create(
     order_id: Order.all.sample.id,
     record_id: Record.all.sample.id

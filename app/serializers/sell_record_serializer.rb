@@ -1,5 +1,7 @@
 class SellRecordSerializer < ActiveModel::Serializer
-  attributes :id, :sell_price, :user_id, :record_id
-  belongs_to :user
-  belongs_to :record
+  attributes :id, :sell_price, :record
+
+  def record
+    ActiveModel::SerializableResource.new(object.record,  each_serializer: RecordSerializer)
+  end
 end

@@ -1,4 +1,6 @@
 class OrderSerializer < ActiveModel::Serializer
-  attributes :id, :user_id, :total_sum, :status
-  has_many :order_records
+  attributes :id, :total_sum, :status, :order_records
+    def order_records
+      ActiveModel::SerializableResource.new(object.order_records,  each_serializer: OrderRecordSerializer)
+    end
 end
