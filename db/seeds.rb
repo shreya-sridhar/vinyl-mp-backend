@@ -21,7 +21,7 @@ User.destroy_all
   )
 end
 
-20.times do
+70.times do
   Record.create(
     name: Faker::Music.album,
     artist: Faker::Music.band,
