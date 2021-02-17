@@ -1,4 +1,6 @@
 class RecordsController < ApplicationController
+  skip_before_action :authorized
+  
   def index
     if !params[:page].nil? && params[:page].to_i <= 0
       return redirect_to records_path

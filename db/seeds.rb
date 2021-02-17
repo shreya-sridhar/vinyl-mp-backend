@@ -17,9 +17,10 @@ User.destroy_all
   User.create(
     username: Faker::Name.name,
     password: Faker::Internet.password(min_length: 10, max_length: 20),
-    bio: Faker::Lorem.sentence
+    bio: Faker::Lorem.sentence,
   )
 end
+
 
 70.times do
   Record.create(
@@ -33,7 +34,27 @@ end
   )
 end
 
-10.times do
+User.all.each do |user|
+  friends1 = []
+  favs1 = []
+  friendlist = User.all.sample(Random.new.rand(0..10))
+  favlist = Record.all.sample(Random.new.rand(0..20))
+
+  friendlist.each do |fri|
+    friends1 << fri.id
+  end
+
+  favlist.each do |f|
+    favs1 << f.id
+  end
+
+  user.friends = friends1
+  user.favorites = favs1
+  user.save
+end
+
+
+100.times do
   SellRecord.create(
     user_id: User.all.sample.id,
     record_id: Record.all.sample.id,
@@ -56,5 +77,10 @@ end
     )
 end
 
-
 puts 'done'
+
+
+
+
+
+
