@@ -18,4 +18,8 @@ class RecordsController < ApplicationController
     render json: @expensive_records
   end
 
+  def show
+    
+  end
+
 end
