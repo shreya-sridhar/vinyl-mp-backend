@@ -1,4 +1,5 @@
 class SellRecordsController < ApplicationController
+  skip_before_action :authorized
   def index
     render json: SellRecord.all
   end
@@ -6,4 +7,5 @@ class SellRecordsController < ApplicationController
   def show
     render json: SellRecord.find_by(id: params[:id])
   end
+  
 end
