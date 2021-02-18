@@ -4,8 +4,13 @@ class OrdersController < ApplicationController
     render json: Order.all
   end
 
+  def new 
+    @order = Order.new
+  end
+
   def create
     @order = Order.create(order_params)
+    @order.save
     render json: @order
   end
 
