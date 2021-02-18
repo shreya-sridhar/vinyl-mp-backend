@@ -14,6 +14,12 @@ class OrdersController < ApplicationController
     render json: @order
   end
 
+    
+  def update
+    @order = Order.find(params[:id])
+    @order.update_attributes(params[:status])
+  end
+
   private
   def order_params
     params.require(:order).permit(:user_id,:status,:total_sum)

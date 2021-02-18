@@ -15,6 +15,12 @@ class OrderRecordsController < ApplicationController
     render json: @order_record
   end
 
+  def destroy
+    @order_record = OrderRecord.find_by(id: params[:id])
+    @order_record.destroy
+    render json: @order_record
+  end 
+
   private
   def order_record_params
     params.require(:order_record).permit(:order_id,:record_id)
