@@ -81,10 +81,11 @@ top_artists.each do |artist|
     record_array.each do |record|
       record_name = record["strAlbum"]
       record_year = record["intYearReleased"]
-      record_picture = record["strAlbumThumb"]
-      record_genre = record["strGenre"]
+      null_cover = 'https://images.unsplash.com/photo-1458560871784-56d23406c091?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200'
+      record_picture = record["strAlbumThumb"] == nil || record["strAlbumThumb"] == "" ? null_cover : record["strAlbumThumb"]
+      record_genre = record["strGenre"] == nil || record["strGenre"] == "" ? "hmmm" : record["strGenre"]
       record_rating = record["intScore"]
-      record_description = record["strDescriptionEN"]
+      record_description = record["strDescriptionEN"] == nil || record["strDescriptionEN"] == "" ? "That's an awesome Record" : record["strDescriptionEN"]
 
       id = record["idAlbum"]
       song_db = RestClient.get "theaudiodb.com/api/v1/json/#{api_key}/track.php?m=#{id}"
@@ -94,7 +95,6 @@ top_artists.each do |artist|
         song_name = song["strTrack"]
         songs_list << song_name
       end
-
 
       Record.create(name: record_name,
                     artist: artist,
@@ -163,7 +163,8 @@ end
 80.times do
   OrderRecord.create(
     order_id: Order.all.sample.id,
-    record_id: Record.all.sample.id
+    record_id: Record.all.sample.id,
+    order_date: Faker::Date.between(from: '2018-0101', to: '2021-02-18')
   )
 end
 

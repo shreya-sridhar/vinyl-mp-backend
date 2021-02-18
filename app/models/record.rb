@@ -7,8 +7,8 @@ class Record < ApplicationRecord
 
     if search
       search_string = "%" + search.downcase + "%"
-      records = Record.where("lower(name) LIKE ? OR lower(artist) LIKE ? OR  lower(songs_list) LIKE ?",
-                             search_string, search_string, search_string)
+      records = Record.where("lower(name) LIKE ? OR lower(artist) LIKE ? OR  lower(songs_list) LIKE ? OR  lower(genre) LIKE ?",
+                             search_string, search_string, search_string, search_string)
     elsif
       records = Record.all
     end
