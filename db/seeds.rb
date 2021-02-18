@@ -45,7 +45,7 @@ User.all.each do |user|
   end
 
   favlist.each do |f|
-    favs1 << f.id
+    favs1 << [f.name,f.cover]
   end
 
   user.friends = friends1
@@ -53,6 +53,8 @@ User.all.each do |user|
   user.save
 end
 
+# user.friends = ["78","99","100"]
+# user.favorites = [["Beatle","http:"]]
 
 100.times do
   SellRecord.create(
