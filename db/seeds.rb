@@ -5,6 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+require 'rest-client'
+require 'json'
 
 OrderRecord.destroy_all
 Order.destroy_all
@@ -12,25 +14,109 @@ SellRecord.destroy_all
 Record.destroy_all
 User.destroy_all
 
+top_artists = [
+  "Bob Dylan",
+  "Marvin Gaye",
+  "The Rolling Stones",
+  "Nirvana",
+  "Michael Jackson",
+  "John Lennon / Plastic Ono Band",
+  "Stevie Wonder",
+  "U2",
+# "The Who",
+# "Led Zeppelin",
+# "Sex Pistols",
+# "The Doors",
+# "Pink Floyd",
+# "Bob Marley & The Wailers",
+# "Guns N' Roses",
+# "Radiohead",
+# "Billy Joel",
+# "AC/DC",
+# "John Lennon",
+# "Johnny Cash",
+# "Elton John",
+# "Prince",
+# "Frank Sinatra",
+# "Kanye West",
+# "Iggy and The Stooges",
+# "KISS",
+# "Metallica",
+# "Aerosmith",
+# "ABBA",
+# "Madonna",
+# "Green Day",
+# "Nine Inch Nails",
+# "The Smiths",
+# "Queen",
+# "Eminem",
+# "Jay Z",
+# "Whitney Houston",
+# "X",
+# "Red Hot Chili Peppers",
+# "The Police",
+# "Moby",
+# "Depeche Mode",
+# "Oasis",
+# "ZZ Top",
+# "The Temptations",
+# "Lynyrd Skynyrd",
+# "Dr. John",
+# "The Ronettes",
+# "Amy Winehouse",
+# "Adele",
+# "Coldplay"
+]
+
+#returns all artist names in API w/ Artist descriptions
+# @artist_array = []
+api_key = 523532
+# api_key = ENV["AUDIODB_KEY"]
+
+# seeds all records associated with an artist
+top_artists.each do |artist|
+  begin
+    record_db = RestClient.get "theaudiodb.com/api/v1/json/#{api_key}/searchalbum.php?s=#{artist}"
+    record_array = JSON.parse(record_db)["album"]
+    record_array.each do |record|
+      record_name = record["strAlbum"]
+      record_year = record["intYearReleased"]
+      record_picture = record["strAlbumThumb"]
+      record_genre = record["strGenre"]
+      record_rating = record["intScore"]
+      record_description = record["strDescriptionEN"]
+
+      id = record["idAlbum"]
+      song_db = RestClient.get "theaudiodb.com/api/v1/json/#{api_key}/track.php?m=#{id}"
+      song_array = JSON.parse(song_db)["track"]
+      songs_list = []
+      song_array.each do |song|
+        song_name = song["strTrack"]
+        songs_list << song_name
+      end
+
+
+      Record.create(name: record_name,
+                    artist: artist,
+                    cover: record_picture,
+                    songs_list: songs_list,
+                    year: record_year,
+                    genre: record_genre,
+                    price: Random.new.rand(5.00..500.00),
+                    rating: record_rating.to_i / 2,
+                    description: record_description
+      )
+    end
+  rescue NoMethodError, RuntimeError
+    next(artist)
+  end
+end
 
 10.times do
   User.create(
-    username: Faker::Name.name,
-    password: Faker::Internet.password(min_length: 10, max_length: 20),
-    bio: Faker::Lorem.sentence,
-  )
-end
-
-
-70.times do
-  Record.create(
-    name: Faker::Music.album,
-    artist: Faker::Music.band,
-    cover: "https://images.unsplash.com/photo-1526382551041-3c817fc3d478?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=300&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=400",
-    songs_list: Faker::Lorem.words(number: 4),
-    year: Random.new.rand(1900..2020),
-    price: Random.new.rand(10.00..1000.00),
-    rating: Random.new.rand(0..5)
+    username: Faker::Internet.unique.user_name,
+    password: '12345',
+    bio: Faker::Hacker.say_something_smart,
   )
 end
 
@@ -39,22 +125,18 @@ User.all.each do |user|
   favs1 = []
   friendlist = User.all.sample(Random.new.rand(0..10))
   favlist = Record.all.sample(Random.new.rand(0..20))
-
   friendlist.each do |fri|
     friends1 << fri.id
   end
-
   favlist.each do |f|
-    favs1 << f.id
+    favs1 << [f.name, f.cover]
   end
-
   user.friends = friends1
   user.favorites = favs1
   user.save
 end
 
-
-100.times do
+60.times do
   SellRecord.create(
     user_id: User.all.sample.id,
     record_id: Record.all.sample.id,
@@ -62,19 +144,27 @@ end
   )
 end
 
+Order.create(user_id: 1, status: "in_cart", total_sum: 0.00)
+Order.create(user_id: 2, status: "in_cart", total_sum: 0.00)
+Order.create(user_id: 3, status: "in_cart", total_sum: 0.00)
+Order.create(user_id: 4, status: "in_cart", total_sum: 0.00)
+Order.create(user_id: 5, status: "in_cart", total_sum: 0.00)
+Order.create(user_id: 6, status: "in_cart", total_sum: 0.00)
+Order.create(user_id: 7, status: "in_cart", total_sum: 0.00)
+Order.create(user_id: 8, status: "in_cart", total_sum: 0.00)
+Order.create(user_id: 9, status: "in_cart", total_sum: 0.00)
+Order.create(user_id: 10, status: "in_cart", total_sum: 0.00)
+
+
 30.times do
-  Order.create(
-    user_id: User.all.sample.id,
-    status: %w[in_cart completed].sample,
-    total_sum: 0.00
-  )
+  Order.create(user_id: User.all.sample.id, status: "completed", total_sum: 0.00)
 end
 
-100.times do
+80.times do
   OrderRecord.create(
     order_id: Order.all.sample.id,
     record_id: Record.all.sample.id
-    )
+  )
 end
 
 puts 'done'

@@ -3,6 +3,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.1'
 
+# #gem for securing api
+# gem 'dotenv-rails'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.1.1'
 # Use postgresql as the database for Active Record
@@ -47,3 +50,8 @@ gem "faker", "~> 2.16"
 
 # gem for pagination
 gem 'will_paginate', '~> 3.1.1'
+
+#A simple HTTP and REST client for Ruby,
+# inspired by the Sinatra microframework style of specifying actions: get, put, post, delete.
+gem 'rest-client', '~> 2.1.0'
+
