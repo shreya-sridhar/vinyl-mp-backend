@@ -7,7 +7,7 @@ class CreateRecords < ActiveRecord::Migration[6.1]
       t.text :songs_list
       t.integer :year
       t.float :price
-      t.integer :rating
+      t.float :rating
 
       t.timestamps
     end
