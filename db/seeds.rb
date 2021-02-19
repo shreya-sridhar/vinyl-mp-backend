@@ -70,7 +70,7 @@ top_artists = [
 
 #returns all artist names in API w/ Artist descriptions
 # @artist_array = []
-api_key = 523532
+api_key = 
 # api_key = ENV["AUDIODB_KEY"]
 
 # seeds all records associated with an artist
