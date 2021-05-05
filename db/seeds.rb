@@ -70,7 +70,7 @@ top_artists = [
 
 #returns all artist names in API w/ Artist descriptions
 # @artist_array = []
-api_key = 
+api_key = 523532
 # api_key = ENV["AUDIODB_KEY"]
 
 # seeds all records associated with an artist
@@ -167,7 +167,7 @@ end
   OrderRecord.create(
     order_id: Order.all.sample.id,
     record_id: Record.all.sample.id,
-    order_date: Faker::Date.between(from: '2018-0101', to: '2021-02-18')
+    order_date: Faker::Date.between(from: '2018-01-01', to: '2021-02-18')
   )
 end
 
